@@ -10,9 +10,12 @@ on:
 jobs:
   update-destination:
     name: Update destination
-    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
       - name: Pushes to destination
         uses: ad-m/github-push-action@master
         with:
