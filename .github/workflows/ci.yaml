@@ -19,6 +19,7 @@ jobs:
       - name: Pushes to destination
         uses: ad-m/github-push-action@master
         with:
+          force: true
           github_token: ${{ secrets.API_GITHUB_TOKEN }}
           directory: 'input'
           repository: 'vik-m/push-destination'
