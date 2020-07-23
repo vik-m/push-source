@@ -1,0 +1,21 @@
+# Refer https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions
+name: CI
+
+# Execute workflow on push (develop/master) or pull request to any branch
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update-destination:
+    name: Update destination
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pushes to destination
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.API_GITHUB_TOKEN }}
+          directory: './input'
+          repository: 'vik-m/push-destination'
