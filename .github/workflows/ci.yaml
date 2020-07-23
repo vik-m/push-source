@@ -17,5 +17,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.API_GITHUB_TOKEN }}
-          directory: './input'
+          directory: input
           repository: 'vik-m/push-destination'
