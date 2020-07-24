@@ -18,18 +18,19 @@ jobs:
         with:
           repository: vik-m/push-destination
           token: ${{ secrets.API_GITHUB_TOKEN }}
-
-      - name: List current folder
-        run: ls -R .
-
-      - name: Checkout current repo
-        uses: actions/checkout@v2
-        with:
-          repository: ${{ github.repository }}
           path: temp-location
 
       - name: List current folder
         run: ls -R .
+
+      # - name: Checkout current repo
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: ${{ github.repository }}
+      #     path: temp-location
+
+      # - name: List current folder
+      #   run: ls -R .
 
       # - name: Commit changes
       #   run: |
