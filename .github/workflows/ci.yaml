@@ -15,9 +15,6 @@ jobs:
     steps:
       - name: Checkout current repo
         uses: actions/checkout@v2
-        with:
-          repository: ${{ github.repository }}
-          path: source
 
       - name: Checkout vik-m/push-destination
         uses: actions/checkout@v2
