@@ -13,12 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.repository }}
+          path: source
+
       - name: Checkout vik-m/push-destination
         uses: actions/checkout@v2
         with:
           repository: vik-m/push-destination
           token: ${{ secrets.API_GITHUB_TOKEN }}
-          path: temp-location
+          path: destination
 
       - name: List current folder
         run: ls -R .
