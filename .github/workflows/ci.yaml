@@ -16,43 +16,44 @@ jobs:
       - name: Checkout current repo
         uses: actions/checkout@v2
 
+      - name: Make archive destination directory
+        run: mkdir -vp ~/www/archive
+
+      - name: Move output to destination directory
+        run: mv input/test.json ~/www/archive/
+      
       - name: Checkout vik-m/push-destination
         uses: actions/checkout@v2
         with:
           repository: vik-m/push-destination
           token: ${{ secrets.API_GITHUB_TOKEN }}
-          path: destination
 
-      - name: List current folder
-        run: ls -R .
+      - name: Copy built site files into Git branch
+        run: cp ~/www/archive/test.json ./output/
 
-      # - name: Checkout current repo
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: ${{ github.repository }}
-      #     path: temp-location
+      - name: Add changes to git tracking
+        run: git add -A .
 
-      # - name: List current folder
-      #   run: ls -R .
+      - name: Commit changes
+        run: |
+          git config --local user.name 'Vikram Malhotra'
+          git config --local user.email 'vikram.malhotra@x-factory.jp'
+          git commit -m 'Updated output for ${{ github.repository }}'
 
-      # - name: Commit changes
-      #   run: |
-      #     git config user.name 'Vikram Malhotra'
-      #     git config user.email 'vikram.malhotra@x-factory.jp'
-      #     git add -A
-      #     git commit -m 'Updated swagger specs for ${{ github.repository }}'
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.API_GITHUB_TOKEN }}
+          branch: updated-source
 
-      # - name: Create pull request
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     token: ${{ secrets.API_GITHUB_TOKEN }}
-      #     commit-message: 'Updated swagger specs for ${{ github.repository }}'
-      #     committer: GitHub <noreply@github.com>
-      #     author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-      #     branch: ${{ github.repository }}-${{ github.ref }}
-      #     title: 'Updated swagger specs for ${{ github.repository }}'
-      #     body: |
-      #       ## Tasks
-      #       - [ ] Updated swagger specs for ${{ github.repository }}
-      #     reviewers: vik-m
-      #     draft: false
+      - name: Initialize Pull Request
+        uses: gha-utilities/init-pull-request@v0.1.9
+        with:
+          verbose: true
+          pull_request_token: ${{ secrets.GITHUB_TOKEN }}
+          head: updated-source
+          base: master
+          title: 'Updated swagger specs for ${{ github.repository }}'
+          body: |
+            ## Tasks
+            - [ ] Updated swagger specs for ${{ github.repository }}
