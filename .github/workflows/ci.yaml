@@ -28,6 +28,9 @@ jobs:
           repository: vik-m/push-destination
           token: ${{ secrets.API_GITHUB_TOKEN }}
 
+      - name: Pull new changes
+        run: git pull
+
       - name: Copy built site files into Git branch
         run: cp ~/www/archive/test.json ./output/
 
