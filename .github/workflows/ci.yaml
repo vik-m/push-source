@@ -32,7 +32,7 @@ jobs:
         run: cp ~/www/archive/test.json ./output/
 
       - name: List files
-        run: ls -r
+        run: ls -R
 
       - name: Add changes to git tracking
         run: git add -A .
