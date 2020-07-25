@@ -34,27 +34,27 @@ jobs:
       - name: List files
         run: ls -R
 
-      - name: Add changes to git tracking
-        run: git add -A .
+      # - name: Add changes to git tracking
+      #   run: git add -A .
 
-      - name: Commit changes
-        run: |
-          git config --local user.name 'Vikram Malhotra'
-          git config --local user.email 'vikram.malhotra@x-factory.jp'
-          git commit -v -m 'Updated output for ${{ github.repository }}'
+      # - name: Commit changes
+      #   run: |
+      #     git config --local user.name 'Vikram Malhotra'
+      #     git config --local user.email 'vikram.malhotra@x-factory.jp'
+      #     git commit -v -m 'Updated output for ${{ github.repository }}'
 
-      - name: Show status
-        run: git status
+      # - name: Show status
+      #   run: git status
 
-      - name: Show origin
-        run: git remote show origin
+      # - name: Show origin
+      #   run: git remote show origin
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.API_GITHUB_TOKEN }}
-          branch: ${{ github.repository }}
-          repository: vik-m/push-destination
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.API_GITHUB_TOKEN }}
+      #     branch: ${{ github.repository }}
+      #     repository: vik-m/push-destination
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
