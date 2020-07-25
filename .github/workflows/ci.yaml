@@ -37,17 +37,11 @@ jobs:
       - name: Add changes to git tracking
         run: git add -A .
 
-      - name: Show status
-        run: git status
-
       - name: Commit changes
         run: |
           git config --local user.name 'Vikram Malhotra'
           git config --local user.email 'vikram.malhotra@x-factory.jp'
           git commit -v -m 'Updated output for ${{ github.repository }}'
-
-      - name: Show status
-        run: git status
 
       - name: Push changes
         uses: ad-m/github-push-action@master
@@ -57,6 +51,9 @@ jobs:
 
       - name: Show status
         run: git status
+
+      - name: Show origin
+        run: git remote show origin
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
