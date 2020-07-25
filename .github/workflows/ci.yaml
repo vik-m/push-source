@@ -53,7 +53,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.API_GITHUB_TOKEN }}
-          branch: ${{ github.repository }}-${{ github.ref }}
+          branch: ${{ github.repository }}
           repository: vik-m/push-destination
 
       - name: Create pull request
@@ -63,7 +63,7 @@ jobs:
           commit-message: 'Updated swagger specs for ${{ github.repository }}'
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: ${{ github.repository }}-${{ github.ref }}
+          branch: ${{ github.repository }}
           base: master
           title: 'Updated swagger specs for ${{ github.repository }}'
           body: |
