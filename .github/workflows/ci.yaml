@@ -44,16 +44,20 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.API_GITHUB_TOKEN }}
-          branch: updated-source
+          branch: ${{ github.repository }}-${{ github.ref }}
 
-      - name: Initialize Pull Request
-        uses: gha-utilities/init-pull-request@v0.1.9
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v3
         with:
-          verbose: true
-          pull_request_token: ${{ secrets.GITHUB_TOKEN }}
-          head: updated-source
+          token: ${{ secrets.API_GITHUB_TOKEN }}
+          commit-message: 'Updated swagger specs for ${{ github.repository }}'
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: ${{ github.repository }}-${{ github.ref }}
           base: master
           title: 'Updated swagger specs for ${{ github.repository }}'
           body: |
             ## Tasks
             - [ ] Updated swagger specs for ${{ github.repository }}
+          reviewers: vik-m
+          draft: false
