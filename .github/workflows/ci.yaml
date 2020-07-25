@@ -54,6 +54,7 @@ jobs:
         with:
           github_token: ${{ secrets.API_GITHUB_TOKEN }}
           branch: ${{ github.repository }}-${{ github.ref }}
+          repository: vik-m/push-destination
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v3
