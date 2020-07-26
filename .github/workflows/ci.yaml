@@ -32,8 +32,15 @@ jobs:
       - name: Copy built site files into Git branch
         run: cp ~/www/archive/test.json ./output/
 
-      - name: Log
-        run: echo ${{ toJson(github) }}
+      - id: file_changes
+        uses: trilom/file-changes-action@v1.2.3
+
+      - name: test
+        run: |
+          echo '${{ steps.file_changes.outputs.files}}'
+          echo '${{ steps.file_changes.outputs.files_modified}}'
+          echo '${{ steps.file_changes.outputs.files_added}}'
+          echo '${{ steps.file_changes.outputs.files_removed}}'
 
       - name: Store number of changes
         run: echo '::set-output name=count::$(git status --untracked-files=no --porcelain | wc -l)'
