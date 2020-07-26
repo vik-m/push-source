@@ -27,6 +27,7 @@ jobs:
         with:
           repository: vik-m/push-destination
           token: ${{ secrets.API_GITHUB_TOKEN }}
+          ref: ${{ github.repository }}
 
       - name: Copy built site files into Git branch
         run: cp ~/www/archive/test.json ./output/
