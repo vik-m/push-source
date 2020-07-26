@@ -32,6 +32,9 @@ jobs:
       - name: Copy built site files into Git branch
         run: cp ~/www/archive/test.json ./output/
 
+      - name: Log
+        run: echo ${{ github }}
+
       - name: Store number of changes
         run: echo '::set-output name=count::$(git status --untracked-files=no --porcelain | wc -l)'
         id: log_changes
