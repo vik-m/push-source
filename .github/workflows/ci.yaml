@@ -56,7 +56,8 @@ jobs:
           git commit -v -m 'Updated output for ${{ github.repository }}'
 
       - name: Push changes
-        if: steps.log_changes.outputs.count > 0
+        if: contains(steps.file_changes.outputs.files, 'input/test.json')
+        # if: steps.log_changes.outputs.count > 0
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.API_GITHUB_TOKEN }}
