@@ -42,12 +42,13 @@ jobs:
           echo '${{ steps.file_changes.outputs.files_added}}'
           echo '${{ steps.file_changes.outputs.files_removed}}'
 
-      - name: Store number of changes
-        run: echo '::set-output name=count::$(git status --untracked-files=no --porcelain | wc -l)'
-        id: log_changes
+      # - name: Store number of changes
+      #   run: echo '::set-output name=count::$(git status --untracked-files=no --porcelain | wc -l)'
+      #   id: log_changes
 
       - name: Add changes to git tracking and commit changes
-        if: steps.log_changes.outputs.count > 0
+        # if: steps.log_changes.outputs.count > 0
+        if: contains(steps.file_changes.outputs.files, 'input/test.json')
         run: |
           git config --local user.name 'Vikram Malhotra'
           git config --local user.email 'vikram.malhotra@x-factory.jp'
