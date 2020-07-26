@@ -32,13 +32,16 @@ jobs:
       - name: Copy built site files into Git branch
         run: cp ~/www/archive/test.json ./output/
 
-      - name: Add changes to git tracking
-        run: git add -A .
+      - name: Store number of changes
+        run: echo '::set-output name=count::$(git status --untracked-files=no --porcelain | wc -l)'
+        id: log_changes
 
-      - name: Commit changes
+      - name: Add changes to git tracking and commit changes
+        if: steps.log_changes.outputs.count > 0
         run: |
           git config --local user.name 'Vikram Malhotra'
           git config --local user.email 'vikram.malhotra@x-factory.jp'
+          git add -A .
           git commit -v -m 'Updated output for ${{ github.repository }}'
 
       - name: Push changes
