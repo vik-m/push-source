@@ -33,7 +33,7 @@ jobs:
         run: cp ~/www/archive/test.json ./output/
 
       - name: Log
-        run: echo ${{ github }}
+        run: echo ${{ toJson(github) }}
 
       - name: Store number of changes
         run: echo '::set-output name=count::$(git status --untracked-files=no --porcelain | wc -l)'
