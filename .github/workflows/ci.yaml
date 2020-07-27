@@ -16,50 +16,62 @@ jobs:
       - name: Checkout current repo
         uses: actions/checkout@v2
 
-      - name: Make archive destination directory
-        run: mkdir -vp ~/www/archive
-
-      - name: Move output to destination directory
-        run: mv input/test.json ~/www/archive/
-      
-      - name: Checkout vik-m/push-destination
-        uses: actions/checkout@v2
-        with:
-          repository: vik-m/push-destination
-          token: ${{ secrets.API_GITHUB_TOKEN }}
-          ref: ${{ github.repository }}
-
-      - name: Copy built site files into Git branch
-        run: cp ~/www/archive/test.json ./output/
-
-      - id: file_changes
+      - name: Store the file changes
         uses: trilom/file-changes-action@v1.2.3
+        id: file_changes
 
-      - name: test
-        run: |
-          echo '${{ steps.file_changes.outputs.files}}'
-          echo '${{ steps.file_changes.outputs.files_modified}}'
-          echo '${{ steps.file_changes.outputs.files_added}}'
-          echo '${{ steps.file_changes.outputs.files_removed}}'
+      - name: Create issue on push-destination
+        if: contains(steps.file_changes.outputs.files, 'input/test.json')
+        uses: maxkomarychev/oction-create-issue@v0.7.1
+        with:
+          token: ${{ secrets.API_GITHUB_TOKEN }}
+          title: Update input.json for ${{ github.event.repository.name }}
+          repo: vik-m/push-destination
+
+      # - name: Make archive destination directory
+      #   run: mkdir -vp ~/www/archive
+
+      # - name: Move output to destination directory
+      #   run: mv input/test.json ~/www/archive/
+      
+      # - name: Checkout vik-m/push-destination
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: vik-m/push-destination
+      #     token: ${{ secrets.API_GITHUB_TOKEN }}
+      #     ref: ${{ github.repository }}
+
+      # - name: Copy built site files into Git branch
+      #   run: cp ~/www/archive/test.json ./output/
+
+      # - id: file_changes
+      #   uses: trilom/file-changes-action@v1.2.3
+
+      # - name: test
+      #   run: |
+      #     echo '${{ steps.file_changes.outputs.files}}'
+      #     echo '${{ steps.file_changes.outputs.files_modified}}'
+      #     echo '${{ steps.file_changes.outputs.files_added}}'
+      #     echo '${{ steps.file_changes.outputs.files_removed}}'
 
       # - name: Store number of changes
       #   run: echo '::set-output name=count::$(git status --untracked-files=no --porcelain | wc -l)'
       #   id: log_changes
 
-      - name: Add changes to git tracking and commit changes
-        # if: steps.log_changes.outputs.count > 0
-        if: contains(steps.file_changes.outputs.files, 'input/test.json')
-        run: |
-          git config --local user.name 'Vikram Malhotra'
-          git config --local user.email 'vikram.malhotra@x-factory.jp'
-          git add -A .
-          git commit -v -m 'Updated output for ${{ github.repository }}'
+      # - name: Add changes to git tracking and commit changes
+      #   # if: steps.log_changes.outputs.count > 0
+      #   if: contains(steps.file_changes.outputs.files, 'input/test.json')
+      #   run: |
+      #     git config --local user.name 'Vikram Malhotra'
+      #     git config --local user.email 'vikram.malhotra@x-factory.jp'
+      #     git add -A .
+      #     git commit -v -m 'Updated output for ${{ github.repository }}'
 
-      - name: Push changes
-        if: contains(steps.file_changes.outputs.files, 'input/test.json')
-        # if: steps.log_changes.outputs.count > 0
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.API_GITHUB_TOKEN }}
-          branch: ${{ github.repository }}
-          repository: vik-m/push-destination
+      # - name: Push changes
+      #   if: contains(steps.file_changes.outputs.files, 'input/test.json')
+      #   # if: steps.log_changes.outputs.count > 0
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.API_GITHUB_TOKEN }}
+      #     branch: ${{ github.repository }}
+      #     repository: vik-m/push-destination
