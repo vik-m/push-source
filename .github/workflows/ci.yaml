@@ -27,6 +27,7 @@ jobs:
           token: ${{ secrets.API_GITHUB_TOKEN }}
           title: Update input.json for ${{ github.event.repository.name }}
           repo: push-destination
+          labels: ${{ github.event.repository.name }}
 
       # - name: Make archive destination directory
       #   run: mkdir -vp ~/www/archive
