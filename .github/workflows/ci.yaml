@@ -24,7 +24,7 @@ jobs:
         if: contains(steps.file_changes.outputs.files, 'input/test.json')
         run: |
           curl -i -X POST 'https://api.github.com/repos/vik-m/push-destination/dispatches'
-            -d '{"event_type": "start-swagger-workflow", "client_payload": {"repo": "${{ github.event.repository.name }}"}}'
+            -d "{'event_type': 'start-swagger-workflow', 'client_payload': {'repo': '${{ github.event.repository.name }}'}}"
             -H "Authorization: token ${{ secrets.API_GITHUB_TOKEN }}"
             -H "Content-Type: application/json"
 
