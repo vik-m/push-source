@@ -23,8 +23,7 @@ jobs:
       - name: Trigger the workflow on push-destination
         if: contains(steps.file_changes.outputs.files, 'input/test.json')
         run: |
-          curl
-            -v -X POST
+          curl -i -X POST
             -H "Authorization: token ${{ secrets.API_GITHUB_TOKEN }}"
             -H "Content-Type: application/json"
             -d "{'event_type': 'start-swagger-workflow', 'client_payload': {'repo': '${{ github.event.repository.name }}'}}"
