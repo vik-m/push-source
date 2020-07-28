@@ -20,14 +20,18 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
         id: file_changes
 
-      - name: Create issue on push-destination
+      - name: Trigger the workflow on push-destination
         if: contains(steps.file_changes.outputs.files, 'input/test.json')
-        uses: maxkomarychev/oction-create-issue@v0.7.1
-        with:
-          token: ${{ secrets.API_GITHUB_TOKEN }}
-          title: Update input.json for ${{ github.event.repository.name }}
-          repo: push-destination
-          labels: ${{ github.event.repository.name }}
+        run: |
+          curl -i -X POST 'https://api.github.com/repos/vik-m/push-destination/dispatches' \
+            -d '{"event_type": "start-swagger-workflow", "client_payload": {"repo": "${{ github.event.repository.name }}"}}'
+
+        # uses: maxkomarychev/oction-create-issue@v0.7.1
+        # with:
+        #   token: ${{ secrets.API_GITHUB_TOKEN }}
+        #   title: Update input.json for ${{ github.event.repository.name }}
+        #   repo: push-destination
+        #   labels: ${{ github.event.repository.name }}
 
       # - name: Make archive destination directory
       #   run: mkdir -vp ~/www/archive
