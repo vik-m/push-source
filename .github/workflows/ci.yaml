@@ -25,7 +25,7 @@ jobs:
         run: |
           curl -i -X POST 'https://api.github.com/repos/vik-m/push-destination/dispatches'
             -d '{"event_type": "start-swagger-workflow", "client_payload": {"repo": "${{ github.event.repository.name }}"}}'
-            -u ${{ GITHUB_ACTOR }}:${{ secrets.API_GITHUB_TOKEN }}
+            -u ${{ github.ator }}:${{ secrets.API_GITHUB_TOKEN }}
 
         # uses: maxkomarychev/oction-create-issue@v0.7.1
         # with:
