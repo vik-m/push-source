@@ -26,7 +26,7 @@ jobs:
           curl -i -X POST \
             -H "Authorization: token ${{ secrets.API_GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "{'event_type': 'start-swagger-workflow', 'client_payload': {'repo': '${{ github.event.repository.name }}'}}" \
+            -d '{"event_type": "start-swagger-workflow", "client_payload": {"repo": "${{ github.event.repository.name }}"}}' \
             https://api.github.com/repos/vik-m/push-destination/dispatches
 
         # uses: maxkomarychev/oction-create-issue@v0.7.1
